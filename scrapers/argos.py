@@ -9,4 +9,4 @@ def check_is_in_stock(url):
     soup = BeautifulSoup(resp.text, 'lxml')
 
     info_text = soup.find(id=in_stock_div_id).get_text()
-    return not_in_stock_string in info_text
+    return not_in_stock_string not in info_text
