@@ -14,5 +14,5 @@ def check_is_in_stock(url, variation_id):
     is_in_stock = False
     for product in products:
         if product['variation_id'] == variation_id :
-            is_in_stock = product['is_in_stock']:
+            is_in_stock = product['is_in_stock']
     return is_in_stock
