@@ -1,4 +1,12 @@
 from scrapers import *
 
-in_stock = argos.check_is_in_stock('https://www.argos.ie/static/Product/partNumber/6187783/Trail/searchtext%3EKETTLEBELL.htm')
-print(in_stock)
+scraper_map = {
+    "1": argos,
+    "2": strengthshop,
+    "3": irishlifting,
+    "4": fitnessequipmentireland,
+    "5": fightstoredublin,
+}
+def lambda_handler(event, context):
+    
+lambda_handler(None, None)
