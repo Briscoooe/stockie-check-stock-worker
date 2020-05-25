@@ -1,0 +1,22 @@
+name: deploy to lambda
+on: [push]
+jobs:
+  deploy_source:
+    name: build and deploy lambda
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: install packages and zip
+        run: |
+          mkdir output
+          pipenv lock -r > requirements.txt
+          pip install -r requirements.txt --no-deps -t output
+          zip -r output.zip output
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-est-1
+          function_name: stockie-check-stock
+          zip_file: output.zip
