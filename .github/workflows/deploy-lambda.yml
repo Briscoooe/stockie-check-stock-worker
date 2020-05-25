@@ -14,11 +14,9 @@ jobs:
         uses: dschep/install-pipenv-action@v1
       - name: Install packages and zip
         run: |
-          mkdir output
-          cp -r ./* output
           pipenv lock -r > requirements.txt
-          pip install -r requirements.txt --no-deps -t output
-          zip -r output.zip output
+          pip install -r requirements.txt --no-deps
+          zip -r output.zip .
       - name: Deploy to Lambda
         uses: appleboy/lambda-action@master
         with:
