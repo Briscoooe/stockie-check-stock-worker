@@ -8,5 +8,6 @@ scraper_map = {
     "5": fightstoredublin,
 }
 def handler(event, context):
+    print('hello')
     
 lambda_handler(None, None)
