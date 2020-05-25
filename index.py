@@ -7,6 +7,6 @@ scraper_map = {
     "4": fitnessequipmentireland,
     "5": fightstoredublin,
 }
-def lambda_handler(event, context):
+def handler(event, context):
     
 lambda_handler(None, None)
