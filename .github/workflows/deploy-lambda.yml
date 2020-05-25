@@ -6,17 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: install packages and zip
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install pipenv
+        uses: dschep/install-pipenv-action@v1
+      - name: Install packages and zip
         run: |
           mkdir output
           pipenv lock -r > requirements.txt
           pip install -r requirements.txt --no-deps -t output
           zip -r output.zip output
-      - name: default deploy
+      - name: Deploy to Lambda
         uses: appleboy/lambda-action@master
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: eu-est-1
+          aws_region: eu-east-1
           function_name: stockie-check-stock
           zip_file: output.zip
