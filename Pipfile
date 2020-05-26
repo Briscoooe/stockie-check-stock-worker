@@ -11,6 +11,7 @@ lxml = "*"
 mysql-connector-python = "*"
 python-dotenv = "*"
 requests = "*"
+futures = "*"
 
 [requires]
 python_version = "3.7"
