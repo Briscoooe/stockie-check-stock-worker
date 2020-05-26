@@ -44,6 +44,7 @@ def lambda_handler(event, context):
             print('joined')
         for update in rows_to_update:
             db.run_update(queries.update_product_in_stock, update)
+
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
