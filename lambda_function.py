@@ -25,6 +25,7 @@ def lambda_handler(event, context):
     print(event)
     try:
         db.connect()
+        
         rows = db.run_select(queries.get_products_to_scrape_query)
         q = Queue()
         processes = []
