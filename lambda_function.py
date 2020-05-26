@@ -4,7 +4,6 @@ import db
 import queries
 from concurrent import futures
 from multiprocessing import Pool, Queue, Process
-import requests
 
 scraper_map = {
     1: argos,
@@ -25,8 +24,6 @@ def check_row(queue, row):
 def lambda_handler(event, context):
     print(event)
     try:
-        r = requests.get('https://google.com')
-        print(r.status_code)
         db.connect()
         rows = db.run_select(queries.get_products_to_scrape_query)
         q = Queue()
