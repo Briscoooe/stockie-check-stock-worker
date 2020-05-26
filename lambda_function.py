@@ -22,16 +22,6 @@ def check_row(row):
         return_var = (in_stock_tinyint, row["product_id"])
     return return_var
 
-def reader_proc(pipe):
-    ## Read from the pipe; this will be spawned as a separate Process
-    p_output, p_input = pipe
-    p_input.close()    # We are only reading
-    while True:
-        msg = p_output.recv()    # Read from the output pipe and do nothing
-        print(msg)
-        if msg=='DONE':
-            break
-
 def lambda_handler(event, context):
     print(event)
     try:
@@ -42,7 +32,8 @@ def lambda_handler(event, context):
             # Start the load operations and mark each future with its URL
             future_to_url = {executor.submit(check_row, row): row for row in rows}
             for future in concurrent.futures.as_completed(future_to_url):
-                url = future_to_url[future]
+                row = future_to_url[future]
+                print(row)
                 data = future.result()
                 print(data)
         # for update in rows_to_update:
@@ -50,4 +41,3 @@ def lambda_handler(event, context):
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
-lambda_handler(None, None)
