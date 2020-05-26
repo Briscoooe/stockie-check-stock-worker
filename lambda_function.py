@@ -47,3 +47,5 @@ def lambda_handler(event, context):
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
+
+lambda_handler(None, None)

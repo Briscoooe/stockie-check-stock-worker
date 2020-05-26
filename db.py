@@ -1,15 +1,17 @@
 import mysql.connector
 import settings
 
-conn = mysql.connector.connect(
-  host=settings.DB_HOST,
-  user=settings.DB_USER,
-  passwd=settings.DB_PASSWORD,
-  database=settings.DB_NAME
-)
+conn = None
 
 def connect():
+    global conn
     print('Connecting to DB...')
+    conn = mysql.connector.connect(
+        host=settings.DB_HOST,
+        user=settings.DB_USER,
+        passwd=settings.DB_PASSWORD,
+        database=settings.DB_NAME
+    )
     print('Done')
 
 def run_select(query, values = ()):
