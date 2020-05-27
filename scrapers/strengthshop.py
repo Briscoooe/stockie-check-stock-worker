@@ -5,7 +5,7 @@ not_in_stock_string = 'Out of stock'
 stock_available_class = 'availability out-of-stock'
 
 def check_is_in_stock(url, variant_id = None):
-    print('strengthshop checking', url, variation_id)
+    print('strengthshop checking', url, variant_id)
     resp = requests.get(url)
     soup = BeautifulSoup(resp.text, 'lxml')
 
