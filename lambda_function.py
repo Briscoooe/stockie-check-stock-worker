@@ -6,6 +6,7 @@ from concurrent import futures
 from multiprocessing import Pipe, Process
 import concurrent.futures
 import settings
+import requests
 
 scraper_map = {
     1: argos,
@@ -35,6 +36,9 @@ def update_stock_status_for_ids(ids, status):
 
 def lambda_handler(event, context):
     print(event)
+    r = requests.get('https://google.com')
+    print(r)
+    print(r.status_code)
     try:
         db.connect()
         rows = db.run_select(queries.get_products_to_scrape_query)
