@@ -1,5 +1,5 @@
 get_products_to_scrape_query = """
-    SELECT product_id, url, variant_id, store_id, in_stock
+    SELECT product_id, name, url, variant_id, store_id, in_stock
     FROM products
     WHERE active = 1
     AND deleted_at IS NULL

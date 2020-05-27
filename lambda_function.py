@@ -6,6 +6,7 @@ from concurrent import futures
 from multiprocessing import Pipe, Process
 import concurrent.futures
 import settings
+import aws
 
 scraper_map = {
     1: argos,
@@ -53,6 +54,10 @@ def lambda_handler(event, context):
 
         update_stock_status_for_ids(in_stock_true_ids, 1)
         update_stock_status_for_ids(in_stock_false_ids, 0)
+        if len(in_stock_true_ids) > 0:
+            for row in rows:
+                if row['product_id'] in in_stock_true_ids:
+                    aws.publish_notification(row['name'], row['url'], row['product_id'])
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
