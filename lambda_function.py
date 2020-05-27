@@ -5,6 +5,7 @@ import queries
 from concurrent import futures
 from multiprocessing import Pipe, Process
 import concurrent.futures
+import settings
 
 scraper_map = {
     1: argos,
@@ -28,7 +29,7 @@ def lambda_handler(event, context):
         db.connect()
         rows = db.run_select(queries.get_products_to_scrape_query)
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=settings.MAX_WORKERS) as executor:
             # Start the load operations and mark each future with its URL
             future_to_url = {executor.submit(check_row, row): row for row in rows}
             for future in concurrent.futures.as_completed(future_to_url):
