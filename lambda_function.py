@@ -20,25 +20,39 @@ def check_row(row):
     in_stock_tinyint = 1 if in_stock_bool else 0
     return_var = None
     if in_stock_tinyint != row["in_stock"]:
-        return_var = (in_stock_tinyint, row["product_id"])
+        return_var = in_stock_bool
     return return_var
+
+def update_stock_status_for_ids(ids, status):
+    if len(ids) > 0:
+        sql = queries.update_multiple_products_in_stock
+        in_ids = ', '.join(map(lambda x: '%s', ids))
+        sql = sql % ('%s', in_ids)
+        params = []
+        params.append(status)
+        params.extend(ids)
+        db.run_update(sql, params)
 
 def lambda_handler(event, context):
     print(event)
     try:
         db.connect()
         rows = db.run_select(queries.get_products_to_scrape_query)
-
+        in_stock_true_ids = []; 
+        in_stock_false_ids = [];
         with concurrent.futures.ThreadPoolExecutor(max_workers=settings.MAX_WORKERS) as executor:
-            # Start the load operations and mark each future with its URL
             future_to_url = {executor.submit(check_row, row): row for row in rows}
             for future in concurrent.futures.as_completed(future_to_url):
                 row = future_to_url[future]
-                print(row)
-                data = future.result()
-                print(data)
-        # for update in rows_to_update:
-            # db.run_update(queries.update_product_in_stock, update)
+                is_in_stock = future.result()
+                if is_in_stock is not None:
+                    if is_in_stock:
+                        in_stock_true_ids.append(row['product_id'])
+                    else:
+                        in_stock_false_ids.append(row['product_id'])
+
+        update_stock_status_for_ids(in_stock_true_ids, 1)
+        update_stock_status_for_ids(in_stock_false_ids, 0)
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise

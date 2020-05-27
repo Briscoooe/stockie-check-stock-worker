@@ -8,4 +8,4 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
 DB_HOST = os.getenv("DB_HOST")
 
-MAX_WORKERS = os.getenv("MAX_WORKERS")
+MAX_WORKERS = int(os.getenv("MAX_WORKERS"))

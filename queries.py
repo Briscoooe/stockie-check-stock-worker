@@ -11,3 +11,10 @@ update_product_in_stock = """
     updated_at = NOW()
     WHERE product_id = %s
 """
+
+update_multiple_products_in_stock = """
+    UPDATE products
+    SET in_stock = %s,
+    updated_at = NOW()
+    WHERE product_id IN (%s)
+"""
