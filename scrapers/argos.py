@@ -5,6 +5,7 @@ not_in_stock_string = 'Currently out of stock'
 in_stock_div_id = 'deliveryInformation'
 
 def check_is_in_stock(url, variant_id = None):
+    print('argos checking', url, variation_id)
     resp = requests.get(url)
     soup = BeautifulSoup(resp.text, 'lxml')
 
